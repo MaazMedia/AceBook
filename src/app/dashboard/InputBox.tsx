@@ -7,7 +7,12 @@ import { getAuth } from "firebase/auth"
 import { useRouter } from 'next/navigation';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useUser } from "../UserContext";
-function InputBox({ addPost }) {
+
+interface InputBoxProps {
+    addPost: (postText: string, username: string, DP: string, email: string) => void;
+}
+
+function InputBox({ addPost }: InputBoxProps) {
     const router = useRouter()
 
     let { user } = useUser()
