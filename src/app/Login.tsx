@@ -173,7 +173,8 @@ const Login = () => {
             <TextInput className="font-medium pr-10 border-2 border-black border-opacity-10 cursor-pointer max-w-md w-full mb-5" placeholder="Email" type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextInput className="font-bold pr-10 border-2 border-black border-opacity-10 cursor-pointer max-w-md w-full mb-5" placeholder="Password" type="password" value={password != 'pas' ? password : ""} onChange={(e) => setPassword(e.target.value)} />
             <div className="flex gap-4">
-          <input
+
+<input
   type='file'
   accept='image/'
   className="font-bold border-2 border-black border-opacity-10 cursor-pointer w-28 mb-5"
@@ -185,6 +186,7 @@ const Login = () => {
     }
   }}
 />
+
 
               <span className='flex cursor-pointer my-2 underline text-black font-extrabold' onClick={handleURL}>Search or type URL</span>
             </div>
