@@ -14,7 +14,7 @@ const Home = () => {
                 <title>
                     AceBook
                 </title>
-                <script src="https://kit.fontawesome.com/316ffe2be1.js" crossOrigin="anonymous"></script>
+
             </Head>
             <body className="bg-gray-100 h-screen ">
 
