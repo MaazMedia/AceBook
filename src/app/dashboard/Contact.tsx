@@ -1,6 +1,10 @@
 import Image from "next/image";
+interface ContactProps {
+    src: string;
+    name: string;
+}
 
-function Contact({ src, name }) {
+function Contact({ src, name }: ContactProps) {
     return (
 
         <div className="flex items-center space-x-3 mb-2 hover:bg-gray-200 cursor-pointer relative p-2 rounded-xl ">
