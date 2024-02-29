@@ -21,21 +21,7 @@ const Login = () => {
   const [profilePhoto, setProfilePhoto] = useState(null);
   let [disabled, setDisabled] = useState(false)
   const router = useRouter()
-  useEffect(() => {
-    let auth = getAuth(app)
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user)
-        console.log("User", user)
-        addDataToDatabse(user.displayName, user.email, user.photoURL)
-      }
-      else {
-        setUser(null)
-
-      }
-    })
-    return () => unsubscribe()
-  }, [])
+ 
   const handleURL = () => {
     let url = prompt("Type the URL of the Image")
     setDownloadURL(url ? url : "")
@@ -126,8 +112,8 @@ const Login = () => {
     const provider = new GoogleAuthProvider()
     try {
       await signInWithPopup(auth, provider)
-      router.push("/dashboard")
-
+      await router.push("/dashboard")
+      setUser(user)
     }
     catch (error) {
       console.error("Error Signing Into Google ", error)
@@ -155,6 +141,7 @@ const Login = () => {
           method: "Gmail"
         });
       }
+      setUser(user)
       console.log("Data Posted To", userDocRef);
 
 
