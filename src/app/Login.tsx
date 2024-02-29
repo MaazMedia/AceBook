@@ -18,7 +18,7 @@ const Login = () => {
   const [password, setPassword] = useState('pas');
   const [downloadURL, setDownloadURL] = useState("");
   const [clicked, setClicked] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState(null);
+const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
   let [disabled, setDisabled] = useState(false)
   const router = useRouter()
  
