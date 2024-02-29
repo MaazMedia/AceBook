@@ -21,15 +21,15 @@ function InputBox({ addPost }: InputBoxProps) {
     }
     const [postText, setPostText] = useState("");
     console.log("User State Is: ", user)
-    const handlePost = () => {
-        if (postText.trim() !== "") {
-            let username = user.name
-            let DP = user.photoURL
-            let email = user.email
-            addPost(postText, username, DP, email);
-            setPostText("");
-        }
-    };
+const handlePost = () => {
+    if (postText.trim() !== "" && user) { // Check if user is not null
+        let username = user.name ?? "Unknown";
+        let DP = user.photoURL ?? "default";
+        let email = user.email ?? "unknown@example.com";
+        addPost(postText, username, DP, email);
+    }
+};
+
 
     return (
         <div className="bg-white p-2 justify-center relative left-[283px] top-[60px] rounded-2xl shadow-md text-gray-500 font-medium mt-6 ">
