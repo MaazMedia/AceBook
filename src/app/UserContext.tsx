@@ -1,5 +1,5 @@
 "use client"
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext, ReactNode } from "react";
 
 interface User {
     name: string,
@@ -18,13 +18,12 @@ const UserContext = createContext<UserContextType>({
     setUser: () => { },
 });
 
-export const UserProvider: React.FC = ({ children }) => {
+export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(() => {
         // Initialize user state from localStorage
         const storedUser = localStorage.getItem("user");
         return storedUser ? JSON.parse(storedUser) : null;
     });
-
     // Update localStorage whenever user state changes
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(user));
