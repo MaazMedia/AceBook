@@ -1,24 +1,19 @@
-import Image from "next/image";
+interface SidebarRowProps {
+    Icon: React.ElementType;
+    title: string;
+}
 
-function SidebarRow({ src, Icon, title }) {
+function SidebarRow({ Icon, title }: SidebarRowProps) {
     return (
-        <div
-            className="flex p-3 cursor-pointer hover:bg-opacity-5 hover:bg-black">
-            {src && (
-                <Image
-                    className="rounded-full "
-                    src={src}
-                    width={30}
-                    height={30}
-                    layout="fixed"
-                />
-            )}
+        <div className="flex p-3 cursor-pointer hover:bg-opacity-5 hover:bg-black">
             {Icon && (
-                <Icon className="h-8 w-8 text-blue-500" />
+                <div className="h-8 w-8 text-blue-500">
+                    <Icon />
+                </div>
             )}
             <p className="hidden sm:inline-flex font-medium ml-2 items-center">{title}</p>
         </div>
-    )
+    );
 }
 
-export default SidebarRow
+export default SidebarRow;
