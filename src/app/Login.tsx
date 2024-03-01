@@ -169,9 +169,9 @@ const Login = () => {
   return (
     <>
       <aside className=" my-28">
-        <Text className="text-blue-600 font-bold text-6xl text-center">
+        <h3 className="text-blue-600 font-bold text-6xl text-center anitialised">
           AceBook
-        </Text>
+        </h3>
         <Subtitle className="text-wrap text-center align-bottom text-3xl font-medium ">
 
           Acebook helps you connect and<br />
