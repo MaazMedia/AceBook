@@ -23,7 +23,6 @@ import { useUser } from "../UserContext"
 
 function Sidebar() {
     const { user, setUser } = useUser()
-    console.log("Users User", user);
     const router = useRouter()
     const handleSignOut = () => {
         let auth = getAuth(app)

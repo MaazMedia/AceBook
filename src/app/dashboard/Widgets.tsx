@@ -1,12 +1,10 @@
 
+"use client"
 import { SearchIcon } from "@heroicons/react/outline";
 import { DotsHorizontalIcon, VideoCameraIcon } from "@heroicons/react/solid";
 import Contact from "./Contact";
 const contacts = [
-    {
-        src: "https://links.papareact.com/d0c",
-        name: "Jeff Bezos",
-    },
+
     {
         src: "https://links.papareact.com/kxk",
         name: "Elon Musk",

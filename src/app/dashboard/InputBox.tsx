@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from "react";
 
 import Image from "next/image";
@@ -14,11 +15,13 @@ function InputBox({ addPost }: InputBoxProps) {
     const router = useRouter()
 
     let { user } = useUser()
-    if (!user) {
-        router.push("/")
-    }
+    useEffect(() => {
+        if (!user) {
+            router.push("/")
+        }
+    }, [user])
+
     const [postText, setPostText] = useState("");
-    console.log("User State Is: ", user)
     const handlePost = () => {
         if (postText.trim() !== "" && user) { // Check if user is not null
             let username = user.name ?? "Unknown";

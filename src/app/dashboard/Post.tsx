@@ -29,7 +29,7 @@ function Post({ message, username, picture, email }: PostPropsType) {
         fetchLikes();
     }, [db, email, message]);
     const handleLike = async () => {
-        console.log("Liked", isLiked)
+
         setisLiked(!isLiked);
         setLikes(prevLikes => isLiked ? prevLikes - 1 : prevLikes + 1); // Update likes count based on previous state
 
@@ -46,7 +46,6 @@ function Post({ message, username, picture, email }: PostPropsType) {
                     const userDocRef = doc(db, "Users", email, "posts", postID);
                     await updateDoc(userDocRef, { Likes: newLikes });
 
-                    console.log("Likes count updated for post:", postID);
                 }
             });
         } catch (error) {
