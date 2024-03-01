@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Profile from "../../../public/Hero.jpg";
+
 import Image from "next/image";
 import { VideoCameraIcon, CameraIcon, EmojiHappyIcon } from "@heroicons/react/outline";
-import { app } from "../../../firebase/ClientApp"
-import { getAuth } from "firebase/auth"
+
 import { useRouter } from 'next/navigation';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useUser } from "../UserContext";
 
 interface InputBoxProps {
@@ -21,14 +19,14 @@ function InputBox({ addPost }: InputBoxProps) {
     }
     const [postText, setPostText] = useState("");
     console.log("User State Is: ", user)
-const handlePost = () => {
-    if (postText.trim() !== "" && user) { // Check if user is not null
-        let username = user.name ?? "Unknown";
-        let DP = user.photoURL ?? "default";
-        let email = user.email ?? "unknown@example.com";
-        addPost(postText, username, DP, email);
-    }
-};
+    const handlePost = () => {
+        if (postText.trim() !== "" && user) { // Check if user is not null
+            let username = user.name ?? "Unknown";
+            let DP = user.photoURL ?? "default";
+            let email = user.email ?? "unknown@example.com";
+            addPost(postText, username, DP, email);
+        }
+    };
 
 
     return (

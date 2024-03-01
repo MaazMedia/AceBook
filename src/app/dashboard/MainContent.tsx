@@ -1,42 +1,43 @@
-"use client"
 import Posts from './Posts';
 import InputBox from './InputBox';
 import { useEffect, useState } from 'react';
-import { addDoc, collection, getDocs, query, setDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import { db, app } from "../../../firebase/ClientApp"
-import { getAuth } from 'firebase/auth';
+import { getAuth, User } from 'firebase/auth';
+
+interface Post {
+    id: number;
+    message: string;
+    name: string;
+    Picture: string;
+    email: string;
+    Likes: number;
+}
 
 function MainContent() {
-    const [posts, setPosts] = useState([]);
-    let [user, setUser] = useState(null)
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [user, setUser] = useState<User | null>(null);
+
     useEffect(() => {
         async function fetchPosts() {
             try {
-                const DocRef = query(collection(db, "Users"))
-                const querySnapshot = await getDocs(DocRef);
-                let allPosts = [];
+                const docRef = query(collection(db, "Users"))
+                const querySnapshot = await getDocs(docRef);
+                let allPosts: Post[] = [];
 
-                querySnapshot.docs.map(async (doc) => {
-
+                await Promise.all(querySnapshot.docs.map(async (doc) => {
                     const userData = doc.data();
+                    const email = doc.id;
 
-
-                    const EmailSnapshot = await getDocs(query(collection(db, "Users", doc.id, "posts")))
-                    EmailSnapshot.docs.map(async (doc) => {
-                        const userPosts = doc.data()
-
+                    const emailSnapshot = await getDocs(query(collection(db, "Users", email, "posts")))
+                    emailSnapshot.docs.forEach(doc => {
+                        const userPosts = doc.data() as Post[];
                         allPosts = allPosts.concat(userPosts);
+                    });
+                }));
 
-                        setPosts(allPosts)
-                    })
-
-
-
-                });
-                allPosts.sort((a, b) => b.timestamp - a.timestamp);
-
-                setPosts([...posts, allPosts]);
-
+                allPosts.sort((a, b) => b.id - a.id);
+                setPosts(allPosts);
             } catch (error) {
                 console.error("Error fetching posts:", error);
             }
@@ -46,49 +47,34 @@ function MainContent() {
     }, []);
 
     useEffect(() => {
-        let auth = getAuth(app)
+        const auth = getAuth(app);
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user) {
-                setUser(user)
+            setUser(user);
+        });
 
-            }
-            else {
-                setUser(null)
+        return () => unsubscribe();
+    }, []);
 
-            }
-        })
-        return () => unsubscribe()
-    }, [])
-    const addPost = async (postText, username, DP, email) => {
-        const newPost = {
-            id: Date.now(),
-            message: postText,
-            name: username,
-            Picture: DP,
-            email: email
-        };
-
-
-        await addDoc(collection(db, "Users", email, "posts"), {
+    const addPost = async (postText: string, username: string, DP: string, email: string) => {
+        const newPost: Post = {
             id: Date.now(),
             message: postText,
             name: username,
             Picture: DP,
             email: email,
             Likes: 0
+        };
 
-        });
-        setPosts([...posts, newPost]);
+        await addDoc(collection(db, "Users", email, "posts"), newPost);
+        setPosts(prevPosts => [...prevPosts, newPost]);
     };
 
     return (
-
         <div className='bg-background h-max'>
             <InputBox addPost={addPost} />
             <Posts posts={posts} db={db} />
         </div>
-    )
-
+    );
 }
 
-export default MainContent
+export default MainContent;

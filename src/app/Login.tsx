@@ -18,10 +18,10 @@ const Login = () => {
   const [password, setPassword] = useState('pas');
   const [downloadURL, setDownloadURL] = useState("");
   const [clicked, setClicked] = useState(false);
-const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
+  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
   let [disabled, setDisabled] = useState(false)
   const router = useRouter()
- 
+
   const handleURL = () => {
     let url = prompt("Type the URL of the Image")
     setDownloadURL(url ? url : "")
@@ -105,18 +105,30 @@ const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
       }
     }
   }
+  interface SignInProps {
+    name: string,
+    email: string,
+    photoURL: string
+  }
 
-  // You can add your logic here to handle the creation of a new account
+  // Assuming setUser and router are defined and accessible from this scope
   const handleGoogleLogin = async () => {
-    let auth = getAuth(app)
-    const provider = new GoogleAuthProvider()
+    let auth = getAuth(app); // Assuming app is defined elsewhere
+    const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider)
-      await router.push("/dashboard")
-      setUser(user)
-    }
-    catch (error) {
-      console.error("Error Signing Into Google ", error)
+      const signIn = await signInWithPopup(auth, provider);
+      if (signIn?.user) {
+        let { displayName, email, photoURL } = signIn.user;
+        let name = displayName || ""; // Ensure name is not null if displayName is null
+        email = email || ""
+        photoURL = photoURL || ""
+        setUser({ name, email, photoURL }); // Set user state with 
+        router.push("/dashboard");
+      } else {
+        console.error("Error Signing Into Google: User is null");
+      }
+    } catch (error) {
+      console.error("Error Signing Into Google ", error);
     }
   }
   const addDataToDatabse = async (name: string, email: string, photoURL: any) => {
@@ -174,18 +186,18 @@ const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
             <TextInput className="font-bold pr-10 border-2 border-black border-opacity-10 cursor-pointer max-w-md w-full mb-5" placeholder="Password" type="password" value={password != 'pas' ? password : ""} onChange={(e) => setPassword(e.target.value)} />
             <div className="flex gap-4">
 
-<input
-  type='file'
-  accept='image/'
-  className="font-bold border-2 border-black border-opacity-10 cursor-pointer w-28 mb-5"
-  placeholder="Profile Photo URL"
-  onChange={(e) => {
-    const file = e.target.files && e.target.files[0]; // Check if e.target.files is not null
-    if (file) {
-      setProfilePhoto(file);
-    }
-  }}
-/>
+              <input
+                type='file'
+                accept='image/'
+                className="font-bold border-2 border-black border-opacity-10 cursor-pointer w-28 mb-5"
+                placeholder="Profile Photo URL"
+                onChange={(e) => {
+                  const file = e.target.files && e.target.files[0]; // Check if e.target.files is not null
+                  if (file) {
+                    setProfilePhoto(file);
+                  }
+                }}
+              />
 
 
               <span className='flex cursor-pointer my-2 underline text-black font-extrabold' onClick={handleURL}>Search or type URL</span>
@@ -201,7 +213,7 @@ const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
             </Button>
 
             <Divider />
-            <Button className="bg-green-600 flex justify-center content-center flex-wrap m-0 m-auto hover:bg-green-700 border-none" onClick={() => {
+            <Button className="bg-green-600 flex justify-center content-center flex-wrap m-auto hover:bg-green-700 border-none" onClick={() => {
               setClicked(!clicked)
             }} >Log In</Button>
             <Button className="bg-white bg-opacity-10 flex justify-center content-center flex-wrap hover:bg-opacity-30 rounded-full text-black text-opacity-90 my-4 border-black mx-16" onClick={handleGoogleLogin}>Continue with Google</Button>
@@ -216,7 +228,7 @@ const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
 
             <Button className=" w-full text-center font-bold text-3xl" onClick={handleLogin} >Log In</Button>
             <Divider />
-            <Button className=" bg-green-600 flex justify-center content-center flex-wrap m-0 m-auto  hover:bg-green-700 border-none " onClick={() => {
+            <Button className=" bg-green-600 flex justify-center content-center flex-wrap m-auto  hover:bg-green-700 border-none " onClick={() => {
               setClicked(!clicked)
             }}>Create New Account</Button>
             <Button className=" bg-white  bg-opacity-10 flex justify-center content-center flex-wrap  hover:bg-opacity-30 rounded-full text-black text-opacity-90 my-4 border-black mx-16 " onClick={handleGoogleLogin} >Continue with Google</Button>
