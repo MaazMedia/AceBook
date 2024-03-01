@@ -9,7 +9,7 @@ interface PostPropsType {
     username: string,
     picture: string,
     email: string,
-    db: 
+  
 }
 function Post({ message, username, picture, email }: PostPropsType) {
     let [isLiked, setisLiked] = useState(false)
