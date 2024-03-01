@@ -1,12 +1,10 @@
-"use client"
 import React, { createContext, useState, useEffect, useContext, ReactNode } from "react";
 
 interface User {
-    name: string,
-    email: string,
-    photoURL: string
+    name: string;
+    email: string;
+    photoURL: string;
 }
-
 
 interface UserContextType {
     user: User | null;
@@ -20,13 +18,19 @@ const UserContext = createContext<UserContextType>({
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(() => {
-        // Initialize user state from localStorage
-        const storedUser = localStorage.getItem("user");
-        return storedUser ? JSON.parse(storedUser) : null;
+        if (typeof window !== 'undefined') {
+            // Check if window object is available (client-side)
+            const storedUser = localStorage.getItem("user");
+            return storedUser ? JSON.parse(storedUser) : null;
+        }
+        return null;
     });
-    // Update localStorage whenever user state changes
+
     useEffect(() => {
-        localStorage.setItem("user", JSON.stringify(user));
+        if (typeof window !== 'undefined') {
+            // Check if window object is available (client-side)
+            localStorage.setItem("user", JSON.stringify(user));
+        }
     }, [user]);
 
     return (
