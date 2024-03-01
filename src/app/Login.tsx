@@ -169,7 +169,7 @@ const Login = () => {
   return (
     <>
       <aside className=" my-28">
-        <Text className="text-blue-600 font-bold  text-6xl  text-center">
+        <Text className="text-blue-600 font-bold text-6xl text-center">
           AceBook
         </Text>
         <Subtitle className="text-wrap text-center align-bottom text-3xl font-medium ">
