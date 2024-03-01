@@ -3,8 +3,15 @@ import { ThumbUpIcon, ChatAltIcon, ShareIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, doc, setDoc, updateDoc } from "firebase/firestore";
-
-function Post({ message, username, picture, email, db }) {
+import { db } from "../../../firebase/ClientApp"
+interface PostPropsType {
+    message: string,
+    username: string,
+    picture: string,
+    email: string,
+    db: 
+}
+function Post({ message, username, picture, email }: PostPropsType) {
     let [isLiked, setisLiked] = useState(false)
     let [Likes, setLikes] = useState(0)
     useEffect(() => {
