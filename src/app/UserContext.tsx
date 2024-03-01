@@ -19,7 +19,7 @@ const UserContext = createContext<UserContextType>({
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(() => {
-        if (typeof window !== 'undefined') {
+        if (typeof localStorage !== 'undefined') {
             // Check if window object is available (client-side)
             const storedUser = localStorage.getItem("user");
             return storedUser ? JSON.parse(storedUser) : null;
@@ -28,7 +28,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
+        if (typeof localStorage !== 'undefined') {
             // Check if window object is available (client-side)
             localStorage.setItem("user", JSON.stringify(user));
         }
