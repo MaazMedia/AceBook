@@ -1,3 +1,4 @@
+"use client"
 import Posts from './Posts';
 import InputBox from './InputBox';
 import { useEffect, useState } from 'react';
