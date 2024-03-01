@@ -72,7 +72,7 @@ function MainContent() {
     return (
         <div className='bg-background h-max'>
             <InputBox addPost={addPost} />
-            <Posts posts={posts} db={db} />
+            <Posts posts={posts} />
         </div>
     );
 }
