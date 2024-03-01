@@ -1,5 +1,5 @@
 "use client"
-import { Card, Text, Subtitle, Divider, TextInput, Button, ProgressBar } from '@tremor/react';
+import { TextInput } from '@tremor/react';
 import Search from '../../../public/search.svg';
 import Friends from '../../../public/friends.svg';
 import HomeBlue from '../../../public/blue-home.svg';
@@ -10,29 +10,13 @@ import bell from '../../../public/bell.png';
 import Group from '../../../public/group.svg';
 import Home from '../../../public/home.svg';
 import { useState, useEffect } from 'react';
-
 import Image from 'next/image'
-import { app } from "../../../firebase/ClientApp"
-import { getAuth } from "firebase/auth"
 import { useRouter } from 'next/navigation';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useUser } from '../UserContext';
 const NavBar = () => {
-    let [user, setUser] = useState(null)
+    const { user } = useUser()
     const router = useRouter()
-    useEffect(() => {
-        let auth = getAuth(app)
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user) {
-                setUser(user)
-                console.log(user)
-            }
-            else {
-                setUser(null)
 
-            }
-        })
-        return () => unsubscribe()
-    }, [])
     const [HomeisClicked, setHomeIsClicked] = useState(false);
     const [FriendsisClicked, setFriendsIsClicked] = useState(false);
     const [GroupisClicked, setGroupIsClicked] = useState(false);
